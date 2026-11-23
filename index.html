@@ -304,7 +304,15 @@ function memberPage(page,button){
  }
  if(page==='home')memberHome();
  if(page==='profile')memberProfile();
- if(page==='announcements')loadAnnouncements();
+ if(page==='announcements'){
+  $('pageContent').innerHTML=`
+   <div class="panel">
+    <h2>Informasi & Pengumuman</h2>
+    <p class="muted">Informasi resmi dari Admin TRAVEL CONNECT.</p>
+    <div id="announcementList">Memuat pengumuman...</div>
+   </div>`;
+  loadAnnouncements();
+ }
  if(page==='contract')memberContract();
 }
 
