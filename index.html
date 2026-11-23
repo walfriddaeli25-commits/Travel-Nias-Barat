@@ -1,368 +1,473 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRAVEL CONNECT</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#07111e;--panel:#12243a;--panel2:#1b314c;--gold:#f3c76a;--text:#eef5ff;--muted:#a9bbcf;--green:#12b981;--red:#f87171}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(135deg,#06101c,#122e43,#07111e);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
-header{padding:20px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#07111eeb;border-bottom:1px solid #d4a84c44;position:sticky;top:0;z-index:10}
-.brand{font-weight:900;color:var(--gold);font-size:22px}
-.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:3px;margin-top:4px}
-button{background:var(--gold);color:#17202b;border:0;border-radius:10px;padding:11px 16px;font-weight:bold;cursor:pointer}
-button:hover{filter:brightness(1.1)}
-button.secondary{background:#29435d;color:white}
-button.danger{background:var(--red);color:#210b0b}
-button.green{background:var(--green);color:#06271c}
-input,textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid #334e69;background:#071525;color:white;margin:7px 0 12px}
-textarea{min-height:100px}
-label{font-size:13px;color:var(--muted)}
-.container{max-width:1150px;margin:auto;padding:20px}
-.card{background:linear-gradient(145deg,#14283e,#0d1c2e);border:1px solid #d8b66b33;border-radius:17px;padding:20px;margin-bottom:16px;box-shadow:0 12px 32px #0003}
-.hero{padding:35px 25px;border-radius:20px;background:linear-gradient(120deg,#14334b,#0c1b2b);border:1px solid #f3c76a55;margin-bottom:20px}
-.hero h1{color:var(--gold);font-size:34px;margin:0 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
-.nav{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
-.nav button{background:#1d344c;color:white}
-.nav button.active{background:var(--gold);color:#17202b}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#071e33,#123e56,#102438);color:#fff;min-height:100vh}
+header{padding:24px;text-align:center;background:linear-gradient(135deg,#b8860b,#f6d365,#b8860b);color:#15202b}
+header h1{margin:0;font-size:30px}
+header p{margin:8px}
+main{max-width:1100px;margin:auto;padding:20px}
+.card{background:#ffffff12;border:1px solid #ffffff25;padding:20px;border-radius:18px;margin-bottom:18px;box-shadow:0 10px 30px #0003}
+input,textarea,select{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #bbb;font-size:15px}
+button{background:#e4b84d;color:#102438;border:0;padding:12px 16px;border-radius:10px;font-weight:bold;cursor:pointer;margin:4px}
+button:hover{filter:brightness(1.08)}
+.secondary{background:#245b78;color:white}
+.danger{background:#c94343;color:white}
+.success{background:#15966b;color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .hidden{display:none!important}
-.badge{padding:5px 9px;border-radius:20px;font-size:12px;background:#334e69;display:inline-block}
-.pending{background:#8b641e}.active{background:#146b4c}.rejected{background:#842d2d}
-.item{padding:15px;background:#0c1a2a;border-radius:12px;margin:10px 0;border:1px solid #243e56}
-.item h3{margin-top:0;color:var(--gold)}
-.muted{color:var(--muted);font-size:13px}
-img.photo{width:100%;max-height:320px;object-fit:cover;border-radius:12px}
-footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-#notice{padding:12px;border-radius:10px;margin:10px 0;background:#29435d;display:none}
-@media(max-width:600px){header{padding:14px}.brand{font-size:18px}.container{padding:12px}.hero h1{font-size:26px}.card{padding:15px}}
+small{color:#cbd5e1}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+nav button{flex:1}
+.status{padding:10px;border-radius:10px;background:#ffffff15;margin:10px 0}
+img{max-width:100%;border-radius:12px}
+hr{border-color:#ffffff25}
+h2,h3{color:#f6d365}
+#message{position:sticky;top:0;z-index:9;background:#123e56;padding:10px;text-align:center}
 </style>
 </head>
 <body>
 
 <header>
-<div class="brand">TRAVEL CONNECT<small>JARINGAN USAHA TRAVEL</small></div>
-<button id="logoutBtn" class="hidden" onclick="logout()">Logout</button>
+<h1>✈ TRAVEL CONNECT</h1>
+<p>Platform Digital Komunitas & Anggota Usaha Travel</p>
 </header>
 
-<div class="container">
-<div id="notice"></div>
+<div id="message"></div>
 
-<section id="auth">
-<div class="hero">
-<h1>TRAVEL CONNECT</h1>
-<p>Platform jaringan, informasi dan kemitraan usaha Travel.</p>
-<p class="muted">Daftarkan usaha Anda, bergabung menjadi anggota, dan terhubung dengan jaringan Travel.</p>
-</div>
+<main>
 
-<div class="grid">
+<section id="auth" class="card">
+<h2>Login Anggota</h2>
+<input id="loginEmail" type="email" placeholder="Email">
+<input id="loginPassword" type="password" placeholder="Password">
+<button onclick="login()">LOGIN</button>
+<button class="secondary" onclick="showRegister()">DAFTAR TRAVEL</button>
+</section>
+
+<section id="register" class="card hidden">
+<h2>Pendaftaran Anggota Travel</h2>
+<input id="regName" placeholder="Nama Pemilik">
+<input id="regTravel" placeholder="Nama Usaha Travel">
+<input id="regPhone" placeholder="Nomor WhatsApp">
+<input id="regAddress" placeholder="Alamat usaha">
+<textarea id="regFleet" placeholder="Jenis kendaraan / armada / layanan"></textarea>
+<input id="regEmail" type="email" placeholder="Email">
+<input id="regPassword" type="password" placeholder="Password (minimal 6 karakter)">
+
 <div class="card">
-<h2>Login</h2>
-<label>Email</label><input id="loginEmail" type="email" placeholder="Email">
-<label>Password</label><input id="loginPass" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
+<h3>Perjanjian Anggota TRAVEL CONNECT</h3>
+<p>1. Anggota wajib memberikan informasi usaha travel yang benar.</p>
+<p>2. Anggota bersedia mengikuti aturan dan ketentuan TRAVEL CONNECT.</p>
+<p>3. Anggota bertanggung jawab atas layanan, kendaraan, pengemudi dan transaksi kepada pelanggan.</p>
+<p>4. TRAVEL CONNECT merupakan platform penghubung antarusaha dan pelanggan.</p>
+<p>5. Keanggotaan harus disetujui oleh pengelola sebelum fitur anggota aktif.</p>
+<p>6. Anggota wajib menjaga nama baik komunitas.</p>
+<p>7. Pengelola berhak menolak atau menonaktifkan anggota jika melanggar ketentuan.</p>
 </div>
 
-<div class="card">
-<h2>Daftar Travel</h2>
-<label>Nama Pemilik</label><input id="regName" placeholder="Nama lengkap">
-<label>Nama Travel</label><input id="regTravel" placeholder="Nama usaha Travel">
-<label>Email</label><input id="regEmail" type="email" placeholder="Email aktif">
-<label>Nomor WhatsApp</label><input id="regPhone" placeholder="08xxxxxxxxxx">
-<label>Alamat</label><textarea id="regAddress" placeholder="Alamat usaha"></textarea>
-<label>Armada / Kendaraan</label><textarea id="regFleet" placeholder="Jenis dan jumlah kendaraan"></textarea>
-<label>Password</label><input id="regPass" type="password" placeholder="Minimal 6 karakter">
-
-<div class="item">
-<h3>Perjanjian Keanggotaan TRAVEL CONNECT</h3>
-<p class="muted">1. Anggota wajib memberikan informasi usaha yang benar.</p>
-<p class="muted">2. Anggota menjaga nama baik jaringan TRAVEL CONNECT.</p>
-<p class="muted">3. Anggota mengikuti aturan dan ketentuan yang berlaku.</p>
-<p class="muted">4. Keanggotaan aktif setelah disetujui Admin.</p>
-<p class="muted">5. Anggota bertanggung jawab atas layanan, kendaraan, keselamatan, transaksi dan perizinan usahanya sendiri.</p>
-<p class="muted">6. TRAVEL CONNECT merupakan jaringan kemitraan, bukan jaminan penumpang, pendapatan, atau pesanan.</p>
-<p class="muted">7. Persetujuan keanggotaan dicatat secara digital.</p>
-</div>
-<label><input type="checkbox" id="contract" style="width:auto"> Saya membaca dan menyetujui perjanjian keanggotaan.</label>
-<button onclick="register()">Daftar & Setujui Kontrak</button>
-</div>
-</div>
+<label><input id="agree" type="checkbox" style="width:auto"> Saya menyetujui perjanjian keanggotaan TRAVEL CONNECT.</label>
+<br>
+<button onclick="register()">DAFTAR SEKARANG</button>
+<button class="secondary" onclick="showLogin()">KEMBALI LOGIN</button>
 </section>
 
 <section id="app" class="hidden">
-<div class="hero">
-<h1 id="welcome">Dashboard</h1>
-<div id="statusText"></div>
+
+<div class="card">
+<h2>Dashboard</h2>
+<div id="welcome"></div>
+<div id="memberStatus" class="status"></div>
+<button onclick="logout()" class="danger">LOGOUT</button>
 </div>
 
-<div class="nav">
-<button onclick="showTab('home',this)">Dashboard</button>
-<button onclick="showTab('profile',this)">Profil Travel</button>
-<button onclick="showTab('photos',this)">Galeri Foto</button>
-<button onclick="showTab('announcements',this)">Pengumuman</button>
-<button id="adminTabBtn" class="hidden" onclick="showTab('admin',this)">Admin</button>
-</div>
+<nav>
+<button onclick="tab('profile')">Profil Travel</button>
+<button onclick="tab('photos')">Foto Travel</button>
+<button onclick="tab('announcements')">Informasi</button>
+<button id="adminBtn" class="hidden" onclick="tab('admin')">Admin</button>
+</nav>
 
-<div id="tab-home" class="tab">
-<div class="card">
-<h2>Informasi Keanggotaan</h2>
-<div id="membership"></div>
-</div>
-<div class="card">
-<h2>Informasi TRAVEL CONNECT</h2>
-<div id="homeAnnouncements"></div>
-</div>
-</div>
-
-<div id="tab-profile" class="tab hidden">
-<div class="card">
-<h2>Profil Usaha Travel</h2>
-<label>Nama Pemilik</label><input id="pName">
-<label>Nama Travel</label><input id="pTravel">
-<label>Email</label><input id="pEmail" disabled>
-<label>WhatsApp</label><input id="pPhone">
-<label>Alamat</label><textarea id="pAddress"></textarea>
-<label>Armada</label><textarea id="pFleet"></textarea>
-<button onclick="saveProfile()">Simpan Profil</button>
-<button class="secondary" onclick="whatsappProfile()">Bagikan Profil via WhatsApp</button>
-</div>
-</div>
-
-<div id="tab-photos" class="tab hidden">
-<div class="card">
-<h2>Galeri Foto Travel</h2>
-<p class="muted">Upload foto usaha, armada, fasilitas atau kegiatan. Maksimal 5 MB per foto.</p>
-<input type="file" id="photoFile" accept="image/png,image/jpeg,image/webp">
-<input id="photoCaption" placeholder="Keterangan foto">
-<button onclick="uploadPhoto()">Upload Foto</button>
-<div id="photoList"></div>
-</div>
-</div>
-
-<div id="tab-announcements" class="tab hidden">
-<div class="card">
-<h2>Pengumuman</h2>
-<div id="announcementList"></div>
-</div>
-</div>
-
-<div id="tab-admin" class="tab hidden">
-<div class="card">
-<h2>Panel Admin</h2>
-<h3>Daftar Anggota</h3>
-<div id="memberList"></div>
-<hr>
-<h3>Buat Pengumuman</h3>
-<input id="announceTitle" placeholder="Judul pengumuman">
-<textarea id="announceMessage" placeholder="Isi pengumuman"></textarea>
-<button onclick="createAnnouncement()">Publikasikan</button>
-<h3>Kelola Pengumuman</h3>
-<div id="adminAnnouncementList"></div>
-</div>
-</div>
+<section id="profile" class="card">
+<h2>Profil Usaha</h2>
+<input id="pName" placeholder="Nama Pemilik">
+<input id="pTravel" placeholder="Nama Travel">
+<input id="pPhone" placeholder="WhatsApp">
+<input id="pAddress" placeholder="Alamat">
+<textarea id="pFleet" placeholder="Armada dan layanan"></textarea>
+<button onclick="saveProfile()">SIMPAN PROFIL</button>
+<button class="secondary" onclick="shareWA()">BAGIKAN KE WHATSAPP</button>
 </section>
-</div>
-<footer>TRAVEL CONNECT • Jaringan Kemitraan Travel</footer>
+
+<section id="photos" class="card hidden">
+<h2>Foto Travel</h2>
+<div id="photoStatus"></div>
+<input type="file" id="photoFile" accept="image/*">
+<input id="photoCaption" placeholder="Keterangan foto">
+<button onclick="uploadPhoto()">UPLOAD FOTO</button>
+<div id="photoList" class="grid"></div>
+</section>
+
+<section id="announcements" class="card hidden">
+<h2>Informasi & Pengumuman</h2>
+<div id="announcementList"></div>
+</section>
+
+<section id="admin" class="card hidden">
+<h2>Panel Pengelola</h2>
+
+<h3>Anggota Travel</h3>
+<div id="memberList"></div>
+
+<hr>
+<h3>Tambah Pengumuman</h3>
+<input id="announceTitle" placeholder="Judul">
+<textarea id="announceMessage" placeholder="Isi informasi"></textarea>
+<button onclick="addAnnouncement()">KIRIM PENGUMUMAN</button>
+</section>
+
+</section>
+</main>
 
 <script>
-const SUPABASE_URL="ISI_URL_SUPABASE_ANDA";
-const SUPABASE_KEY="ISI_ANON_PUBLISHABLE_KEY_ANDA";
+const SUPABASE_URL="https://eudgyiegqylnrkmajtmd.supabase.co";
+const SUPABASE_KEY="sb_publishable_6VZtv6w8o9dZSG7jx1LHwA_al0XY8fG";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let user=null,profile=null,admin=false;
 
-function notice(msg){
- const n=document.getElementById('notice');
- n.textContent=msg;n.style.display='block';
- window.scrollTo({top:0,behavior:'smooth'});
- setTimeout(()=>n.style.display='none',7000);
+let user=null;
+let profile=null;
+
+function msg(t){
+ document.getElementById('message').innerText=t;
+ setTimeout(()=>document.getElementById('message').innerText='',5000);
 }
-function val(id){return document.getElementById(id).value.trim()}
-function showTab(name,btn){
- document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
- document.getElementById('tab-'+name).classList.remove('hidden');
- document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
- if(btn)btn.classList.add('active');
- if(name==='photos')loadPhotos();
- if(name==='announcements')loadAnnouncements();
- if(name==='admin'){loadMembers();loadAdminAnnouncements()}
+
+function showLogin(){
+ document.getElementById('auth').classList.remove('hidden');
+ document.getElementById('register').classList.add('hidden');
+ document.getElementById('app').classList.add('hidden');
 }
+
+function showRegister(){
+ document.getElementById('auth').classList.add('hidden');
+ document.getElementById('register').classList.remove('hidden');
+}
+
+function tab(id){
+ document.querySelectorAll('#app > section').forEach(s=>s.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+ if(id==='photos')loadPhotos();
+ if(id==='announcements')loadAnnouncements();
+ if(id==='admin')loadMembers();
+}
+
 async function login(){
- const {data,error}=await sb.auth.signInWithPassword({email:val('loginEmail'),password:val('loginPass')});
- if(error)return notice(error.message);
- await initApp(data.user);
+ const email=document.getElementById('loginEmail').value.trim();
+ const password=document.getElementById('loginPassword').value;
+ const {data,error}=await sb.auth.signInWithPassword({email,password});
+ if(error)return msg(error.message);
+ user=data.user;
+ await init();
 }
+
 async function register(){
- if(!document.getElementById('contract').checked)return notice('Anda harus menyetujui kontrak keanggotaan.');
- if(val('regPass').length<6)return notice('Password minimal 6 karakter.');
- if(!val('regEmail')||!val('regName')||!val('regTravel'))return notice('Nama, nama Travel dan email wajib diisi.');
+ if(!document.getElementById('agree').checked)
+  return msg('Anda harus menyetujui perjanjian anggota.');
+
+ const fields={
+ full_name:document.getElementById('regName').value.trim(),
+ travel_name:document.getElementById('regTravel').value.trim(),
+ phone:document.getElementById('regPhone').value.trim(),
+ address:document.getElementById('regAddress').value.trim(),
+ fleet:document.getElementById('regFleet').value.trim()
+ };
+
+ const email=document.getElementById('regEmail').value.trim();
+ const password=document.getElementById('regPassword').value;
+
+ if(!fields.full_name||!fields.travel_name||!fields.phone||!email||!password)
+  return msg('Lengkapi data wajib.');
+
+ if(password.length<6)return msg('Password minimal 6 karakter.');
+
  const {data,error}=await sb.auth.signUp({
-  email:val('regEmail'),password:val('regPass'),
-  options:{data:{
-   full_name:val('regName'),travel_name:val('regTravel'),
-   phone:val('regPhone'),address:val('regAddress'),
-   fleet:val('regFleet'),contract_accepted:true,
-   contract_version:'TC-2026-01'
-  }}
+  email,password,
+  options:{
+   data:{
+    ...fields,
+    contract_accepted:true,
+    contract_version:'TC-2026-01'
+   }
+  }
  });
- if(error)return notice(error.message);
- if(data.user && !data.session){
-  notice('Pendaftaran berhasil. Periksa email untuk konfirmasi, lalu login.');
+
+ if(error)return msg(error.message);
+
+ if(data.session){
+  user=data.user;
+  await init();
+ }else{
+  msg('Pendaftaran berhasil. Periksa email jika verifikasi email diwajibkan. Silakan login setelah verifikasi.');
+  showLogin();
+ }
+}
+
+async function init(){
+ if(!user){
+  showLogin();
   return;
  }
- if(data.user)await initApp(data.user);
-}
-async function logout(){
- await sb.auth.signOut();
- user=null;profile=null;
- document.getElementById('app').classList.add('hidden');
- document.getElementById('auth').classList.remove('hidden');
- document.getElementById('logoutBtn').classList.add('hidden');
-}
-async function initApp(u){
- user=u;
- const {data,error}=await sb.from('travel_profiles').select('*').eq('id',user.id).single();
- if(error)return notice('Profil belum ditemukan: '+error.message);
- profile=data;admin=profile.role==='admin'&&profile.membership_status==='active';
+
+ const {data,error}=await sb.from('travel_profiles')
+  .select('*').eq('id',user.id).maybeSingle();
+
+ if(error){
+  msg('Gagal memuat profil: '+error.message);
+  return;
+ }
+
+ profile=data;
+
+ if(!profile){
+  msg('Profil belum tersedia. Hubungi pengelola.');
+  return;
+ }
+
  document.getElementById('auth').classList.add('hidden');
+ document.getElementById('register').classList.add('hidden');
  document.getElementById('app').classList.remove('hidden');
- document.getElementById('logoutBtn').classList.remove('hidden');
- document.getElementById('welcome').textContent='Selamat datang, '+(profile.full_name||profile.travel_name||'Anggota');
- document.getElementById('statusText').innerHTML='Status: <span class="badge '+profile.membership_status+'">'+profile.membership_status.toUpperCase()+'</span>';
- document.getElementById('membership').innerHTML=
- '<p>Travel: <b>'+esc(profile.travel_name||'-')+'</b></p>'+
- '<p>Status: <span class="badge '+profile.membership_status+'">'+profile.membership_status+'</span></p>'+
- '<p>Kontrak: '+(profile.contract_accepted?'Disetujui':'Belum disetujui')+'</p>'+
- '<p class="muted">'+(profile.membership_status==='pending'?'Pendaftaran Anda sedang menunggu persetujuan Admin.':profile.membership_status==='rejected'?'Pendaftaran Anda ditolak. Hubungi Admin.':'Anda sudah menjadi anggota aktif.')+'</p>';
- document.getElementById('adminTabBtn').classList.toggle('hidden',!admin);
- fillProfile();loadAnnouncements();showTab('home');
- if(admin)loadMembers();
+
+ document.getElementById('welcome').innerHTML=
+  'Selamat datang, <b>'+esc(profile.full_name||profile.email)+'</b>';
+
+ document.getElementById('memberStatus').innerText=
+  'Status keanggotaan: '+profile.membership_status.toUpperCase();
+
+ document.getElementById('adminBtn').classList.toggle('hidden',profile.role!=='admin');
+
+ fillProfile();
+
+ if(profile.role==='admin')tab('admin');
+ else tab('profile');
 }
+
 function fillProfile(){
  document.getElementById('pName').value=profile.full_name||'';
  document.getElementById('pTravel').value=profile.travel_name||'';
- document.getElementById('pEmail').value=profile.email||user.email||'';
  document.getElementById('pPhone').value=profile.phone||'';
  document.getElementById('pAddress').value=profile.address||'';
  document.getElementById('pFleet').value=profile.fleet||'';
 }
+
 async function saveProfile(){
- const updates={full_name:val('pName'),travel_name:val('pTravel'),phone:val('pPhone'),address:val('pAddress'),fleet:val('pFleet')};
- const {error}=await sb.from('travel_profiles').update(updates).eq('id',user.id);
- if(error)return notice(error.message);
- profile={...profile,...updates};notice('Profil berhasil disimpan.');
+ if(profile.membership_status!=='active')
+  return msg('Profil belum bisa diperbarui sebelum keanggotaan aktif.');
+
+ const values={
+ full_name:document.getElementById('pName').value.trim(),
+ travel_name:document.getElementById('pTravel').value.trim(),
+ phone:document.getElementById('pPhone').value.trim(),
+ address:document.getElementById('pAddress').value.trim(),
+ fleet:document.getElementById('pFleet').value.trim()
+ };
+
+ const {error}=await sb.from('travel_profiles')
+  .update(values).eq('id',user.id);
+
+ if(error)return msg(error.message);
+
+ profile={...profile,...values};
+ msg('Profil berhasil disimpan.');
 }
-function whatsappProfile(){
- const txt=`TRAVEL CONNECT\n${profile.travel_name||''}\nPemilik: ${profile.full_name||''}\nWA: ${profile.phone||''}\nAlamat: ${profile.address||''}\nArmada: ${profile.fleet||''}`;
- window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+
+function shareWA(){
+ const text=`TRAVEL CONNECT\nNama Travel: ${profile.travel_name}\nPemilik: ${profile.full_name}\nWhatsApp: ${profile.phone}\nAlamat: ${profile.address}\nArmada: ${profile.fleet}`;
+ window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
 }
+
 async function uploadPhoto(){
- if(profile.membership_status!=='active'||!profile.contract_accepted)return notice('Upload foto hanya untuk anggota aktif yang telah menyetujui kontrak.');
+ if(profile.membership_status!=='active')
+  return msg('Upload foto hanya untuk anggota aktif.');
+
  const file=document.getElementById('photoFile').files[0];
- if(!file)return notice('Pilih foto terlebih dahulu.');
- if(file.size>5242880)return notice('Foto maksimal 5 MB.');
+ if(!file)return msg('Pilih foto terlebih dahulu.');
+ if(file.size>5*1024*1024)return msg('Ukuran foto maksimal 5 MB.');
+
  const path=user.id+'/'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
- const {error:upErr}=await sb.storage.from('travel-photos').upload(path,file,{contentType:file.type});
- if(upErr)return notice(upErr.message);
- const {error:dbErr}=await sb.from('travel_photos').insert({user_id:user.id,photo_path:path,caption:val('photoCaption')});
- if(dbErr)return notice(dbErr.message);
+
+ const {error:upError}=await sb.storage.from('travel-photos').upload(path,file);
+ if(upError)return msg(upError.message);
+
+ const {error:dbError}=await sb.from('travel_photos').insert({
+  user_id:user.id,
+  photo_path:path,
+  caption:document.getElementById('photoCaption').value
+ });
+
+ if(dbError){
+  await sb.storage.from('travel-photos').remove([path]);
+  return msg(dbError.message);
+ }
+
  document.getElementById('photoFile').value='';
  document.getElementById('photoCaption').value='';
- notice('Foto berhasil diunggah.');
+ msg('Foto berhasil diunggah.');
  loadPhotos();
 }
+
 async function loadPhotos(){
- const {data,error}=await sb.from('travel_photos').select('*').order('created_at',{ascending:false});
- if(error)return notice(error.message);
- const box=document.getElementById('photoList');box.innerHTML='';
- for(const p of data||[]){
-  const {data:file}=await sb.storage.from('travel-photos').createSignedUrl(p.photo_path,3600);
-  if(!file)continue;
-  const el=document.createElement('div');el.className='item';
-  el.innerHTML='<img class="photo" src="'+file.signedUrl+'"><p>'+esc(p.caption||'')+'</p><button class="danger" onclick="deletePhoto(\''+p.id+'\',\''+escAttr(p.photo_path)+'\')">Hapus</button>';
-  box.appendChild(el);
+ const el=document.getElementById('photoList');
+ el.innerHTML='Memuat foto...';
+
+ const {data,error}=await sb.from('travel_photos')
+  .select('*').eq('user_id',user.id).order('created_at',{ascending:false});
+
+ if(error){el.innerHTML=esc(error.message);return;}
+
+ el.innerHTML='';
+
+ for(const p of data){
+  const {data:urlData}=await sb.storage.from('travel-photos')
+   .createSignedUrl(p.photo_path,3600);
+
+  const div=document.createElement('div');
+  div.className='card';
+  div.innerHTML=`<img src="${urlData?.signedUrl||''}">
+  <p>${esc(p.caption||'')}</p>
+  <button class="danger" onclick="deletePhoto('${p.id}','${esc(p.photo_path)}')">HAPUS</button>`;
+  el.appendChild(div);
  }
 }
+
 async function deletePhoto(id,path){
  if(!confirm('Hapus foto ini?'))return;
- const {error:stErr}=await sb.storage.from('travel-photos').remove([path]);
- if(stErr)return notice(stErr.message);
  const {error}=await sb.from('travel_photos').delete().eq('id',id);
- if(error)return notice(error.message);
+ if(error)return msg(error.message);
+ await sb.storage.from('travel-photos').remove([path]);
+ msg('Foto dihapus.');
  loadPhotos();
 }
+
 async function loadAnnouncements(){
- const {data,error}=await sb.from('travel_announcements').select('*').order('created_at',{ascending:false});
- if(error)return notice(error.message);
- const boxes=['announcementList','homeAnnouncements'];
- boxes.forEach(id=>document.getElementById(id).innerHTML='');
- (data||[]).forEach(a=>{
-  boxes.forEach(id=>{
-   const el=document.createElement('div');el.className='item';
-   el.innerHTML='<h3>'+esc(a.title)+'</h3><p>'+esc(a.message).replace(/\n/g,'<br>')+'</p><div class="muted">'+new Date(a.created_at).toLocaleString('id-ID')+'</div>';
-   document.getElementById(id).appendChild(el);
-  });
+ const el=document.getElementById('announcementList');
+ el.innerHTML='Memuat...';
+
+ const {data,error}=await sb.from('travel_announcements')
+  .select('*').order('created_at',{ascending:false});
+
+ if(error){el.innerHTML=esc(error.message);return;}
+
+ el.innerHTML='';
+ data.forEach(a=>{
+  const div=document.createElement('div');
+  div.className='card';
+  div.innerHTML=`<h3>${esc(a.title)}</h3><p>${esc(a.message)}</p>
+  <small>${new Date(a.created_at).toLocaleString('id-ID')}</small>`;
+  el.appendChild(div);
  });
 }
-async function createAnnouncement(){
- if(!admin)return notice('Akses Admin diperlukan.');
- const title=val('announceTitle'),message=val('announceMessage');
- if(!title||!message)return notice('Judul dan isi pengumuman wajib diisi.');
- const {error}=await sb.from('travel_announcements').insert({title,message,created_by:user.id});
- if(error)return notice(error.message);
- document.getElementById('announceTitle').value='';
- document.getElementById('announceMessage').value='';
- notice('Pengumuman diterbitkan.');
- loadAnnouncements();loadAdminAnnouncements();
-}
+
 async function loadMembers(){
- if(!admin)return;
- const {data,error}=await sb.from('travel_profiles').select('*').order('created_at',{ascending:false});
- if(error)return notice(error.message);
- const box=document.getElementById('memberList');box.innerHTML='';
- (data||[]).forEach(m=>{
-  const el=document.createElement('div');el.className='item';
-  el.innerHTML='<h3>'+esc(m.travel_name||'Travel')+'</h3>'+
-  '<p>Pemilik: '+esc(m.full_name||'-')+'</p>'+
-  '<p>Email: '+esc(m.email||'-')+'</p>'+
-  '<p>WhatsApp: '+esc(m.phone||'-')+'</p>'+
-  '<p>Alamat: '+esc(m.address||'-')+'</p>'+
-  '<p>Armada: '+esc(m.fleet||'-')+'</p>'+
-  '<p>Status: <span class="badge '+m.membership_status+'">'+m.membership_status+'</span></p>'+
-  '<p>Kontrak: '+(m.contract_accepted?'Disetujui':'Belum')+'</p>'+
-  (m.id===user.id?'(Akun Admin Anda)':m.role==='admin'?'(Admin)':
-   '<button onclick="setMember(\''+m.id+'\',\'active\')">Setujui</button> '+
-   '<button class="danger" onclick="setMember(\''+m.id+'\',\'rejected\')">Tolak</button>');
-  box.appendChild(el);
+ if(profile.role!=='admin')return;
+
+ const el=document.getElementById('memberList');
+ el.innerHTML='Memuat anggota...';
+
+ const {data,error}=await sb.from('travel_profiles')
+  .select('*').order('created_at',{ascending:false});
+
+ if(error){el.innerHTML=esc(error.message);return;}
+
+ el.innerHTML='';
+
+ data.forEach(m=>{
+  const div=document.createElement('div');
+  div.className='card';
+  div.innerHTML=`
+  <h3>${esc(m.travel_name||'Belum diisi')}</h3>
+  <p>Pemilik: ${esc(m.full_name||'')}</p>
+  <p>Email: ${esc(m.email||'')}</p>
+  <p>WA: ${esc(m.phone||'')}</p>
+  <p>Alamat: ${esc(m.address||'')}</p>
+  <p>Armada: ${esc(m.fleet||'')}</p>
+  <p>Status: <b>${esc(m.membership_status)}</b></p>
+  <p>Role: ${esc(m.role)}</p>
+  ${m.role!=='admin'?`
+  <button class="success" onclick="setMember('${m.id}','active')">SETUJUI</button>
+  <button class="danger" onclick="setMember('${m.id}','rejected')">TOLAK</button>
+  <button class="secondary" onclick="setMember('${m.id}','pending')">PENDING</button>`:''}
+  `;
+  el.appendChild(div);
  });
 }
+
 async function setMember(id,status){
- const {error}=await sb.from('travel_profiles').update({membership_status:status}).eq('id',id);
- if(error)return notice(error.message);
- notice('Status anggota diperbarui.');
+ const {error}=await sb.from('travel_profiles')
+  .update({membership_status:status}).eq('id',id);
+
+ if(error)return msg(error.message);
+ msg('Status anggota diperbarui.');
  loadMembers();
 }
-async function loadAdminAnnouncements(){
- if(!admin)return;
- const {data,error}=await sb.from('travel_announcements').select('*').order('created_at',{ascending:false});
- if(error)return notice(error.message);
- const box=document.getElementById('adminAnnouncementList');box.innerHTML='';
- (data||[]).forEach(a=>{
-  const el=document.createElement('div');el.className='item';
-  el.innerHTML='<h3>'+esc(a.title)+'</h3><p>'+esc(a.message)+'</p><button class="danger" onclick="deleteAnnouncement(\''+a.id+'\')">Hapus</button>';
-  box.appendChild(el);
+
+async function addAnnouncement(){
+ if(profile.role!=='admin')return;
+
+ const title=document.getElementById('announceTitle').value.trim();
+ const message=document.getElementById('announceMessage').value.trim();
+
+ if(!title||!message)return msg('Lengkapi judul dan informasi.');
+
+ const {error}=await sb.from('travel_announcements').insert({
+  title,message,created_by:user.id
  });
+
+ if(error)return msg(error.message);
+
+ document.getElementById('announceTitle').value='';
+ document.getElementById('announceMessage').value='';
+ msg('Pengumuman berhasil dikirim.');
+ loadAnnouncements();
 }
-async function deleteAnnouncement(id){
- if(!confirm('Hapus pengumuman?'))return;
- const {error}=await sb.from('travel_announcements').delete().eq('id',id);
- if(error)return notice(error.message);
- loadAnnouncements();loadAdminAnnouncements();
+
+async function logout(){
+ await sb.auth.signOut();
+ user=null;
+ profile=null;
+ showLogin();
+ msg('Anda telah logout.');
 }
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function escAttr(s){return String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
-sb.auth.getSession().then(({data})=>{if(data.session)initApp(data.session.user)});
+
+function esc(s){
+ return String(s??'').replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
+sb.auth.onAuthStateChange((event,session)=>{
+ if(session?.user){
+  user=session.user;
+  setTimeout(()=>init(),0);
+ }else if(event==='SIGNED_OUT'){
+  showLogin();
+ }
+});
+
+(async()=>{
+ const {data}=await sb.auth.getSession();
+ if(data.session){
+  user=data.session.user;
+  await init();
+ }else{
+  showLogin();
+ }
+})();
 </script>
 </body>
 </html>
