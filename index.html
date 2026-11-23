@@ -3,677 +3,477 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TRAVEL CONNECT</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
- --bg:#071522;--panel:#102638;--panel2:#173449;--gold:#e7b95e;
- --gold2:#ffdc91;--white:#f5f8fc;--muted:#a9bdcc;
- --green:#16a779;--red:#dc5555;--line:#294457;
-}
+:root{--bg:#081725;--panel:#102b40;--panel2:#183b51;--gold:#e8bd69;--white:#f5f8fc;--muted:#a9bdcc;--line:#29475b;--green:#16a36a;--red:#c94b54}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(135deg,#06121e,#102b40,#071522);
- color:var(--white);font-family:Inter,Arial,sans-serif;min-height:100vh}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:0}
-.hidden{display:none!important}
-header{padding:18px 5%;display:flex;align-items:center;justify-content:space-between;
- border-bottom:1px solid var(--line);background:#071522eF;position:sticky;top:0;z-index:10}
-.brand{font-size:21px;font-weight:800;letter-spacing:1px;color:var(--gold2)}
+body{margin:0;background:linear-gradient(135deg,#071522,#102e43,#081725);color:var(--white);font-family:Inter,Arial,sans-serif;min-height:100vh}
+header{padding:17px 5%;display:flex;justify-content:space-between;align-items:center;background:#071522;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.brand{font-size:21px;font-weight:800;color:var(--gold)}
 .brand span{color:white}
-.header-right{display:flex;gap:10px;align-items:center}
-.container{max-width:1150px;margin:28px auto;padding:0 18px}
-.hero{padding:35px 25px;border:1px solid #806a3b;border-radius:22px;
- background:linear-gradient(120deg,#17374b,#14283a 60%,#4a3b24);
- box-shadow:0 15px 40px #0005;margin-bottom:22px}
-.hero h1{font-size:clamp(25px,5vw,42px);margin:0 0 10px}
-.hero p{color:#d1dce5;line-height:1.7;margin:0}
-.panel{background:linear-gradient(145deg,#102638,#0d2030);border:1px solid var(--line);
- border-radius:17px;padding:22px;margin-bottom:18px;box-shadow:0 8px 25px #0002}
-h2,h3{margin-top:0}
-h2{font-size:21px;color:var(--gold2)}
-h3{font-size:17px}
-label{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px}
-input,textarea,select{width:100%;padding:12px 13px;border-radius:10px;
- border:1px solid var(--line);background:#071a29;color:white;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--gold)}
-textarea{min-height:90px;resize:vertical}
-.btn{padding:11px 16px;border-radius:10px;background:var(--gold);color:#152333;
- font-weight:700;transition:.2s}
-.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.container{max-width:1100px;margin:25px auto;padding:0 16px}
+.hero{padding:30px 22px;border:1px solid #8c7041;border-radius:18px;background:linear-gradient(120deg,#17394e,#172b3d,#493b26);margin-bottom:20px}
+.hero h1{font-size:clamp(25px,5vw,39px);margin:0 0 10px}
+.hero p,.muted{color:var(--muted);line-height:1.7}
+.panel{background:linear-gradient(145deg,#102b40,#0c2030);border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:16px}
+h2{color:var(--gold);font-size:21px;margin-top:0}
+h3{margin-top:0}
+label{display:block;color:var(--muted);font-size:13px;margin:12px 0 6px}
+input,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:#071a29;color:white;font:inherit}
+textarea{min-height:85px}
+button{cursor:pointer;font:inherit}
+.btn{padding:11px 15px;border:0;border-radius:9px;background:var(--gold);color:#152333;font-weight:700}
 .btn.secondary{background:#24465d;color:white}
 .btn.green{background:var(--green);color:white}
 .btn.red{background:var(--red);color:white}
-.btn.small{padding:8px 11px;font-size:12px}
-.btn.whatsapp{background:#1fae68;color:white}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
-.tab{padding:10px 14px;border:1px solid var(--line);border-radius:10px;
- background:#102638;color:#dce8f1}
+.btn.wa{background:#16a34a;color:white}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.tab{background:#18364b;border:1px solid var(--line);color:white;padding:10px 14px;border-radius:9px}
 .tab.active{background:var(--gold);color:#152333;font-weight:800}
-.stat{font-size:30px;color:var(--gold2);font-weight:800}
-.muted{color:var(--muted);font-size:13px;line-height:1.6}
-.card{padding:16px;border-radius:13px;background:#142e41;border:1px solid var(--line)}
-.card p{line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.stat{font-size:30px;color:var(--gold);font-weight:800}
+.notice{padding:13px;background:#193b50;border-radius:10px;margin:12px 0;line-height:1.6}
+.hidden{display:none!important}
+.status{display:inline-block;padding:5px 9px;border-radius:20px;background:#604a22;color:#ffe0a0;font-size:11px}
+.status.active{background:#14553e;color:#b5ffda}
+.announcement{padding:16px;background:#163348;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;margin:13px 0}
+.announcement p{white-space:pre-wrap;line-height:1.7}
+.date{font-size:12px;color:var(--muted)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.between{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;
- background:#57451f;color:#ffdf98;font-weight:700}
-.status.active{background:#124c3b;color:#9ff0ce}
-.status.rejected{background:#562c32;color:#ffc0c0}
-hr{border:0;border-top:1px solid var(--line);margin:18px 0}
-small{color:var(--muted)}
-.notice{padding:12px 14px;border-radius:10px;background:#18394b;color:#d8e8f2;
- margin:10px 0;font-size:13px;line-height:1.6}
-footer{text-align:center;padding:25px;color:#8198a9;font-size:12px}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line);vertical-align:top}
+th,td{padding:11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
 .table-wrap{overflow-x:auto}
-.announcement{border-left:3px solid var(--gold);padding:14px;background:#142e41;
- border-radius:0 12px 12px 0;margin:12px 0}
-.announcement h3{margin:0 0 8px}
-.announcement .date{font-size:11px;color:var(--muted)}
-.auth-wrap{max-width:520px;margin:35px auto}
-.checkline{display:flex;gap:9px;align-items:flex-start;margin:15px 0}
-.checkline input{width:auto;margin-top:4px}
-.checkline label{margin:0;line-height:1.5}
-#message{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
- background:#173c50;border:1px solid var(--gold);padding:13px 18px;
- border-radius:12px;z-index:50;max-width:90%;box-shadow:0 5px 20px #0008}
-@media(max-width:600px){
- header{padding:14px}.brand{font-size:17px}.container{margin:18px auto}
- .panel{padding:16px}.hero{padding:25px 18px}
-}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+#message{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);padding:13px 17px;background:#173e51;border:1px solid var(--gold);border-radius:10px;z-index:20;max-width:90%}
+@media(max-width:600px){header{padding:14px}.brand{font-size:17px}.panel{padding:15px}.hero{padding:23px 17px}}
 </style>
 </head>
 <body>
 
 <header>
  <div class="brand">TRAVEL <span>CONNECT</span></div>
- <div class="header-right">
+ <div class="row">
   <span id="userLabel" class="muted"></span>
-  <button id="logoutBtn" class="btn secondary small hidden" onclick="logout()">Keluar</button>
+  <button id="logoutBtn" class="btn secondary hidden" onclick="logout()">Keluar</button>
  </div>
 </header>
 
 <main class="container">
- <section id="authSection">
-  <div class="hero">
-   <h1>Selamat Datang di TRAVEL CONNECT</h1>
-   <p>Platform jaringan usaha travel untuk membangun kerja sama, berbagi informasi, dan mengembangkan layanan transportasi perjalanan.</p>
-  </div>
-
-  <div class="auth-wrap">
-   <div class="panel">
-    <div class="tabs">
-     <button class="tab active" id="loginTab" onclick="showAuth('login')">Login</button>
-     <button class="tab" id="registerTab" onclick="showAuth('register')">Daftar Pemilik Travel</button>
-    </div>
-
-    <form id="loginForm">
-     <h2>Masuk Akun</h2>
-     <label>Email</label>
-     <input id="loginEmail" type="email" required autocomplete="email">
-     <label>Password</label>
-     <input id="loginPassword" type="password" required autocomplete="current-password">
-     <br><br>
-     <button class="btn" type="submit">Masuk</button>
-    </form>
-
-    <form id="registerForm" class="hidden">
-     <h2>Pendaftaran Pemilik Travel</h2>
-     <div class="notice">Silakan isi data usaha dengan benar. Pendaftaran akan diperiksa dan disetujui oleh Admin.</div>
-     <label>Nama Pemilik</label>
-     <input id="regName" required>
-     <label>Nama Usaha Travel</label>
-     <input id="regTravel" required>
-     <label>Email Aktif</label>
-     <input id="regEmail" type="email" required>
-     <label>Password (minimal 6 karakter)</label>
-     <input id="regPassword" type="password" minlength="6" required>
-     <label>Nomor WhatsApp</label>
-     <input id="regPhone" required>
-     <label>Alamat Usaha</label>
-     <textarea id="regAddress" required></textarea>
-     <label>Data Armada / Kendaraan</label>
-     <textarea id="regFleet" placeholder="Contoh: Avanza 2 unit, Innova 1 unit"></textarea>
-
-     <div class="panel" style="padding:14px;margin-top:18px">
-      <h3>Perjanjian Keanggotaan TRAVEL CONNECT</h3>
-      <div class="muted">
-       1. Anggota wajib memberikan informasi usaha yang benar.<br>
-       2. Anggota wajib menjaga nama baik TRAVEL CONNECT dan sesama anggota.<br>
-       3. Anggota bertanggung jawab atas kendaraan, pengemudi, keselamatan, dan pelayanan usahanya.<br>
-       4. Anggota wajib mematuhi peraturan yang berlaku dan ketentuan kerja sama.<br>
-       5. Persetujuan keanggotaan ditentukan oleh Admin.<br>
-       6. Keanggotaan dapat ditinjau kembali apabila terjadi pelanggaran.
-      </div>
-      <div class="checkline">
-       <input type="checkbox" id="contractCheck" required>
-       <label for="contractCheck">Saya telah membaca, memahami, dan menyetujui perjanjian keanggotaan TRAVEL CONNECT.</label>
-      </div>
-     </div>
-     <button class="btn" type="submit">Kirim Pendaftaran</button>
-    </form>
+<section id="authSection">
+ <div class="hero">
+  <h1>TRAVEL CONNECT</h1>
+  <p>Platform jaringan dan kerja sama usaha travel. Terhubung, berkembang, dan melayani perjalanan bersama.</p>
+ </div>
+ <div style="max-width:520px;margin:auto">
+  <div class="panel">
+   <div class="tabs">
+    <button class="tab active" id="tabLogin" onclick="showAuth('login')">Login</button>
+    <button class="tab" id="tabRegister" onclick="showAuth('register')">Daftar Pemilik Travel</button>
    </div>
-  </div>
- </section>
-
- <section id="appSection" class="hidden">
-  <div class="hero">
-   <div class="between">
-    <div>
-     <h1 id="welcomeTitle">Dashboard</h1>
-     <p id="welcomeText">Selamat datang di TRAVEL CONNECT.</p>
+   <form id="loginForm">
+    <h2>Masuk Akun</h2>
+    <label>Email</label><input id="loginEmail" type="email" required>
+    <label>Password</label><input id="loginPassword" type="password" required>
+    <br><br><button class="btn">Login</button>
+   </form>
+   <form id="registerForm" class="hidden">
+    <h2>Pendaftaran Pemilik Travel</h2>
+    <label>Nama Pemilik</label><input id="regName" required>
+    <label>Nama Usaha Travel</label><input id="regTravel" required>
+    <label>Email</label><input id="regEmail" type="email" required>
+    <label>Password minimal 6 karakter</label><input id="regPassword" type="password" minlength="6" required>
+    <label>Nomor WhatsApp</label><input id="regPhone" required>
+    <label>Alamat Usaha</label><textarea id="regAddress" required></textarea>
+    <label>Armada / Kendaraan</label><textarea id="regFleet"></textarea>
+    <div class="panel">
+     <h3>Perjanjian Keanggotaan</h3>
+     <p class="muted">Anggota wajib memberikan data yang benar, menjaga nama baik organisasi, bertanggung jawab atas pelayanan dan armada, serta mematuhi ketentuan kerja sama. Keanggotaan aktif setelah disetujui Admin.</p>
+     <label style="display:flex;gap:9px;align-items:flex-start">
+      <input type="checkbox" id="contractCheck" required style="width:auto">
+      Saya membaca dan menyetujui perjanjian keanggotaan.
+     </label>
     </div>
-    <span id="membershipBadge" class="status">MEMUAT</span>
-   </div>
+    <button class="btn">Kirim Pendaftaran</button>
+   </form>
   </div>
+ </div>
+</section>
 
-  <div id="pendingNotice" class="notice hidden">
-   Pendaftaran Anda sedang menunggu persetujuan Admin. Beberapa fitur anggota akan aktif setelah disetujui.
-  </div>
+<section id="appSection" class="hidden">
+ <div class="hero">
+  <h1 id="welcomeTitle">Dashboard</h1>
+  <p id="welcomeText">Selamat datang di TRAVEL CONNECT.</p>
+  <span id="membershipBadge" class="status">MEMUAT</span>
+ </div>
+ <div id="pendingNotice" class="notice hidden">Pendaftaran Anda sedang menunggu persetujuan Admin.</div>
 
-  <div id="adminNav" class="tabs hidden">
-   <button class="tab active" onclick="adminPage('overview',this)">Dashboard</button>
-   <button class="tab" onclick="adminPage('members',this)">Pendaftar & Anggota</button>
-   <button class="tab" onclick="adminPage('announcements',this)">Pengumuman</button>
-  </div>
-
-  <div id="memberNav" class="tabs hidden">
-   <button class="tab active" onclick="memberPage('home',this)">Beranda</button>
-   <button class="tab" onclick="memberPage('profile',this)">Profil Travel</button>
-   <button class="tab" onclick="memberPage('announcements',this)">Informasi & Pengumuman</button>
-   <button class="tab" onclick="memberPage('contract',this)">Kontrak Anggota</button>
-  </div>
-
-  <div id="pageContent"></div>
- </section>
+ <div id="adminNav" class="tabs hidden">
+  <button class="tab active" onclick="adminPage('overview',this)">Dashboard</button>
+  <button class="tab" onclick="adminPage('members',this)">Pendaftar & Anggota</button>
+  <button class="tab" onclick="adminPage('announcements',this)">Pengumuman</button>
+ </div>
+ <div id="memberNav" class="tabs hidden">
+  <button class="tab active" onclick="memberPage('home',this)">Beranda</button>
+  <button class="tab" onclick="memberPage('profile',this)">Profil Travel</button>
+  <button class="tab" onclick="memberPage('announcements',this)">Informasi & Pengumuman</button>
+  <button class="tab" onclick="memberPage('contract',this)">Kontrak Anggota</button>
+ </div>
+ <div id="pageContent"></div>
+</section>
 </main>
-
-<footer>TRAVEL CONNECT · Platform Jaringan Usaha Travel</footer>
+<footer>TRAVEL CONNECT · Jaringan Usaha Travel</footer>
 <div id="message" class="hidden"></div>
 
 <script>
-/* =====================================================
-   KONFIGURASI SUPABASE
-   ===================================================== */
-const SUPABASE_URL = "https://eudgyiegqylnrkmajtmd.supabase.co";
-const SUPABASE_KEY = "sb_publishable_6VZ6tv6w8o9dZSG7jx1LHwA_al0XY8fG";
-const ADMIN_ID = "d20bca8a-1e36-4a5e-ba07-05d109c9dc66";
-const ADMIN_WA = "081220157942";
+/* KONFIGURASI */
+const SUPABASE_URL="https://eudgyiegqylnrkmajtmd.supabase.co";
+const SUPABASE_KEY="sb_publishable_6VZ6tv6w8o9dZSG7jx1LHwA_al0XY8fG";
+const ADMIN_ID="d20bca8a-1e36-4a5e-ba07-05d109c9dc66";
+const ADMIN_WA="6281220157942";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const sb = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let currentUser=null;
+let currentProfile=null;
+let announcementCache=[];
 
-let currentUser = null;
-let currentProfile = null;
-let announcementCache = [];
-
-/* =====================================================
-   UTILITAS
-   ===================================================== */
-function el(id){return document.getElementById(id)}
-function showMessage(text){
- const box=el('message');
- box.textContent=text;
- box.classList.remove('hidden');
- setTimeout(()=>box.classList.add('hidden'),4500);
-}
-function escapeHTML(value){
- return String(value??'').replace(/[&<>"']/g,c=>({
-  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
- }[c]));
-}
-function dateText(value){
- if(!value)return '-';
- return new Date(value).toLocaleString('id-ID',{
-  dateStyle:'medium',timeStyle:'short'
- });
-}
-function cleanPhone(value){
- return String(value||'').replace(/\D/g,'');
-}
-function waLink(number,message){
- let phone=cleanPhone(number);
- if(phone.startsWith('0'))phone='62'+phone.slice(1);
- if(!phone.startsWith('62'))phone='62'+phone;
- return 'https://wa.me/'+phone+'?text='+encodeURIComponent(message);
-}
-function openWhatsApp(message){
- window.open(waLink(ADMIN_WA,message),'_blank');
-}
-
-/* =====================================================
-   TAMPILAN LOGIN / DAFTAR
-   ===================================================== */
+function $(id){return document.getElementById(id)}
+function safe(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function notify(t){$('message').textContent=t;$('message').classList.remove('hidden');setTimeout(()=>$('message').classList.add('hidden'),4500)}
+function dateText(v){return v?new Date(v).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'}):'-'}
 function showAuth(mode){
- el('loginForm').classList.toggle('hidden',mode!=='login');
- el('registerForm').classList.toggle('hidden',mode!=='register');
- el('loginTab').classList.toggle('active',mode==='login');
- el('registerTab').classList.toggle('active',mode==='register');
+ $('loginForm').classList.toggle('hidden',mode!=='login');
+ $('registerForm').classList.toggle('hidden',mode!=='register');
+ $('tabLogin').classList.toggle('active',mode==='login');
+ $('tabRegister').classList.toggle('active',mode==='register');
 }
 function showApp(){
- el('authSection').classList.add('hidden');
- el('appSection').classList.remove('hidden');
- el('logoutBtn').classList.remove('hidden');
+ $('authSection').classList.add('hidden');$('appSection').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');
 }
 function showAuthScreen(){
- el('authSection').classList.remove('hidden');
- el('appSection').classList.add('hidden');
- el('logoutBtn').classList.add('hidden');
- el('userLabel').textContent='';
+ $('authSection').classList.remove('hidden');$('appSection').classList.add('hidden');$('logoutBtn').classList.add('hidden');$('userLabel').textContent='';
 }
+function wa(message){window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(message),'_blank','noopener')}
 
-/* =====================================================
-   PENDAFTARAN
-   ===================================================== */
-el('registerForm').addEventListener('submit',async function(e){
+/* PENDAFTARAN */
+$('registerForm').addEventListener('submit',async e=>{
  e.preventDefault();
- const button=this.querySelector('button[type="submit"]');
- button.disabled=true;
- button.textContent='Mengirim...';
-
- const full_name=el('regName').value.trim();
- const travel_name=el('regTravel').value.trim();
- const email=el('regEmail').value.trim();
- const password=el('regPassword').value;
- const phone=el('regPhone').value.trim();
- const address=el('regAddress').value.trim();
- const fleet=el('regFleet').value.trim();
-
+ const btn=e.submitter;btn.disabled=true;
  try{
+  const full_name=$('regName').value.trim();
+  const travel_name=$('regTravel').value.trim();
+  const email=$('regEmail').value.trim();
+  const password=$('regPassword').value;
+  const phone=$('regPhone').value.trim();
+  const address=$('regAddress').value.trim();
+  const fleet=$('regFleet').value.trim();
   const {data,error}=await sb.auth.signUp({
    email,password,
-   options:{
-    data:{
-     full_name,travel_name,phone,address,fleet,
-     contract_accepted:true,
-     contract_version:'1.0'
-    }
-   }
+   options:{data:{full_name,travel_name,phone,address,fleet,contract_accepted:true,contract_version:'1.0'}}
   });
   if(error)throw error;
-
-  if(data.user){
-   showMessage('Pendaftaran berhasil dikirim. Silakan menunggu persetujuan Admin.');
-   this.reset();
-   showAuth('login');
-  }
- }catch(error){
-  showMessage('Pendaftaran gagal: '+error.message);
- }finally{
-  button.disabled=false;
-  button.textContent='Kirim Pendaftaran';
- }
+  notify('Pendaftaran berhasil dikirim. Tunggu persetujuan Admin.');
+  e.target.reset();showAuth('login');
+ }catch(err){notify('Pendaftaran gagal: '+err.message)}
+ finally{btn.disabled=false}
 });
 
-/* =====================================================
-   LOGIN
-   ===================================================== */
-el('loginForm').addEventListener('submit',async function(e){
- e.preventDefault();
- const button=this.querySelector('button[type="submit"]');
- button.disabled=true;
- button.textContent='Memeriksa...';
+/* LOGIN */
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();const btn=e.submitter;btn.disabled=true;
  try{
-  const {data,error}=await sb.auth.signInWithPassword({
-   email:el('loginEmail').value.trim(),
-   password:el('loginPassword').value
-  });
+  const {data,error}=await sb.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});
   if(error)throw error;
-  currentUser=data.user;
-  await loadApplication();
- }catch(error){
-  showMessage('Login gagal: '+error.message);
- }finally{
-  button.disabled=false;
-  button.textContent='Masuk';
- }
+  currentUser=data.user;await loadApplication();
+ }catch(err){notify('Login gagal: '+err.message)}
+ finally{btn.disabled=false}
 });
 
-/* =====================================================
-   MEMUAT PROFIL & MENENTUKAN ROLE
-   ===================================================== */
+/* PROFIL DAN HAK AKSES */
 async function loadApplication(){
- if(!currentUser)return;
- const {data,error}=await sb.from('travel_profiles')
-  .select('*').eq('id',currentUser.id).maybeSingle();
-
- if(error){
-  showMessage('Gagal memuat profil: '+error.message);
-  return;
- }
- if(!data){
-  showMessage('Profil belum ditemukan. Hubungi Admin.');
-  return;
- }
-
- currentProfile=data;
- showApp();
- el('userLabel').textContent=data.full_name||currentUser.email;
-
- const isAdmin=(data.role==='admin'||currentUser.id===ADMIN_ID);
- const status=data.membership_status||'pending';
-
- el('membershipBadge').textContent=isAdmin?'ADMIN':status.toUpperCase();
- el('membershipBadge').className='status '+(status==='active'?'active':'');
- el('welcomeTitle').textContent='Halo, '+(data.full_name||'Pengguna');
- el('welcomeText').textContent=data.travel_name||'Selamat datang di TRAVEL CONNECT.';
-
- el('adminNav').classList.toggle('hidden',!isAdmin);
- el('memberNav').classList.toggle('hidden',isAdmin);
- el('pendingNotice').classList.toggle('hidden',isAdmin||status==='active');
-
- if(isAdmin){
-  adminPage('overview',el('adminNav').querySelector('button'));
- }else{
-  memberPage('home',el('memberNav').querySelector('button'));
- }
+ const {data,error}=await sb.from('travel_profiles').select('*').eq('id',currentUser.id).maybeSingle();
+ if(error){notify('Gagal memuat profil: '+error.message);return}
+ if(!data){notify('Profil tidak ditemukan. Hubungi Admin.');return}
+ currentProfile=data;showApp();
+ $('userLabel').textContent=data.full_name||currentUser.email;
+ const admin=data.role==='admin'||currentUser.id===ADMIN_ID;
+ $('membershipBadge').textContent=admin?'ADMIN':(data.membership_status||'pending').toUpperCase();
+ $('membershipBadge').className='status '+(data.membership_status==='active'?'active':'');
+ $('welcomeTitle').textContent='Halo, '+(data.full_name||'Pengguna');
+ $('welcomeText').textContent=data.travel_name||'Selamat datang di TRAVEL CONNECT';
+ $('adminNav').classList.toggle('hidden',!admin);
+ $('memberNav').classList.toggle('hidden',admin);
+ $('pendingNotice').classList.toggle('hidden',admin||data.membership_status==='active');
+ if(admin)adminPage('overview',$('adminNav').querySelector('button'));
+ else memberPage('home',$('memberNav').querySelector('button'));
 }
-
-/* =====================================================
-   ADMIN - NAVIGASI
-   ===================================================== */
-function setActiveTab(button){
+function activeTab(button){
  document.querySelectorAll('.tabs .tab').forEach(x=>x.classList.remove('active'));
  if(button)button.classList.add('active');
 }
-function adminPage(page,button){
- setActiveTab(button);
+
+/* ADMIN DASHBOARD */
+async function adminPage(page,button){
+ activeTab(button);
  if(page==='overview')return adminOverview();
  if(page==='members')return adminMembers();
  if(page==='announcements')return adminAnnouncements();
 }
 async function adminOverview(){
- const {data:members,error}=await sb.from('travel_profiles').select('*');
- if(error){showMessage(error.message);return}
- const total=members?.length||0;
- const pending=members?.filter(x=>x.membership_status==='pending').length||0;
- const active=members?.filter(x=>x.membership_status==='active').length||0;
-
- el('pageContent').innerHTML=`
+ const {data,error}=await sb.from('travel_profiles').select('*');
+ if(error){notify(error.message);return}
+ const all=data||[];
+ $('pageContent').innerHTML=`
  <div class="grid">
-  <div class="panel"><div class="muted">Total Pendaftar & Anggota</div><div class="stat">${total}</div></div>
-  <div class="panel"><div class="muted">Menunggu Persetujuan</div><div class="stat">${pending}</div></div>
-  <div class="panel"><div class="muted">Anggota Aktif</div><div class="stat">${active}</div></div>
+  <div class="panel"><div class="muted">Total Pendaftar</div><div class="stat">${all.length}</div></div>
+  <div class="panel"><div class="muted">Menunggu Persetujuan</div><div class="stat">${all.filter(x=>x.membership_status==='pending').length}</div></div>
+  <div class="panel"><div class="muted">Anggota Aktif</div><div class="stat">${all.filter(x=>x.membership_status==='active').length}</div></div>
  </div>
- <div class="panel">
-  <h2>Dashboard Admin</h2>
-  <p class="muted">Kelola pendaftaran, persetujuan anggota, dan informasi TRAVEL CONNECT melalui menu di atas.</p>
-  <button class="btn" onclick="adminPage('members')">Lihat Pendaftar</button>
-  <button class="btn secondary" onclick="adminPage('announcements')">Kelola Pengumuman</button>
- </div>`;
+ <div class="panel"><h2>Dashboard Admin</h2><p class="muted">Selamat datang di pusat pengelolaan TRAVEL CONNECT.</p>
+ <button class="btn" onclick="adminPage('members')">Kelola Anggota</button>
+ <button class="btn secondary" onclick="adminPage('announcements')">Buat Pengumuman</button></div>`;
 }
 
-/* =====================================================
-   ADMIN - DATA ANGGOTA & PERSETUJUAN
-   ===================================================== */
+/* ADMIN MENGELOLA ANGGOTA */
 async function adminMembers(){
- el('pageContent').innerHTML='<div class="panel">Memuat data anggota...</div>';
- const {data,error}=await sb.from('travel_profiles')
-  .select('*').order('created_at',{ascending:false});
- if(error){el('pageContent').innerHTML='<div class="panel">Gagal: '+escapeHTML(error.message)+'</div>';return}
-
- let rows=(data||[]).map(p=>{
-  const status=p.membership_status||'pending';
-  return `<tr>
-   <td><b>${escapeHTML(p.full_name)}</b><br><small>${escapeHTML(p.email)}</small></td>
-   <td>${escapeHTML(p.travel_name)}</td>
-   <td>${escapeHTML(p.phone)}</td>
-   <td>${escapeHTML(p.address)}</td>
-   <td><span class="status ${status==='active'?'active':status==='rejected'?'rejected':''}">${escapeHTML(status)}</span></td>
-   <td>
-    ${status!=='active'?`<button class="btn green small" onclick="updateMember('${p.id}','active')">Setujui</button>`:''}
-    ${status!=='rejected'?`<button class="btn red small" onclick="updateMember('${p.id}','rejected')">Tolak</button>`:''}
-    ${status!=='pending'?`<button class="btn secondary small" onclick="updateMember('${p.id}','pending')">Nonaktifkan / Pending</button>`:''}
-   </td>
-  </tr>`;
- }).join('');
-
- el('pageContent').innerHTML=`
- <div class="panel">
-  <h2>Daftar Pendaftar & Anggota</h2>
-  <p class="muted">Periksa data pemilik travel sebelum memberikan persetujuan.</p>
-  <div class="table-wrap"><table>
-   <thead><tr><th>Pemilik</th><th>Usaha Travel</th><th>WhatsApp</th><th>Alamat</th><th>Status</th><th>Aksi</th></tr></thead>
-   <tbody>${rows||'<tr><td colspan="6">Belum ada pendaftar.</td></tr>'}</tbody>
-  </table></div>
- </div>`;
+ $('pageContent').innerHTML='<div class="panel">Memuat data anggota...</div>';
+ const {data,error}=await sb.from('travel_profiles').select('*').order('created_at',{ascending:false});
+ if(error){$('pageContent').innerHTML='<div class="panel">Gagal: '+safe(error.message)+'</div>';return}
+ const rows=(data||[]).map(p=>`
+ <tr>
+ <td><b>${safe(p.full_name)}</b><br><small>${safe(p.email)}</small></td>
+ <td>${safe(p.travel_name)}</td><td>${safe(p.phone)}</td><td>${safe(p.address)}</td>
+ <td><span class="status ${p.membership_status==='active'?'active':''}">${safe(p.membership_status)}</span></td>
+ <td>
+ ${p.membership_status!=='active'?`<button class="btn green" onclick="updateMember('${p.id}','active')">Setujui</button>`:''}
+ ${p.membership_status!=='rejected'?`<button class="btn red" onclick="updateMember('${p.id}','rejected')">Tolak</button>`:''}
+ ${p.membership_status!=='pending'?`<button class="btn secondary" onclick="updateMember('${p.id}','pending')">Pending</button>`:''}
+ </td></tr>`).join('');
+ $('pageContent').innerHTML=`
+ <div class="panel"><h2>Pendaftar & Anggota</h2><div class="table-wrap"><table>
+ <thead><tr><th>Pemilik</th><th>Usaha</th><th>WhatsApp</th><th>Alamat</th><th>Status</th><th>Aksi</th></tr></thead>
+ <tbody>${rows||'<tr><td colspan="6">Belum ada pendaftar.</td></tr>'}</tbody></table></div></div>`;
 }
 async function updateMember(id,status){
  if(!confirm('Ubah status anggota menjadi '+status+'?'))return;
- const {error}=await sb.from('travel_profiles')
-  .update({membership_status:status}).eq('id',id);
- if(error){showMessage('Gagal mengubah status: '+error.message);return}
- showMessage('Status anggota diperbarui.');
- adminMembers();
+ const {error}=await sb.from('travel_profiles').update({membership_status:status}).eq('id',id);
+ if(error){notify('Gagal: '+error.message);return}
+ notify('Status anggota diperbarui.');adminMembers();
 }
 
-/* =====================================================
-   ADMIN - PENGUMUMAN
-   ===================================================== */
+/* ADMIN MENERBITKAN PENGUMUMAN */
 async function adminAnnouncements(){
- const {data,error}=await sb.from('travel_announcements')
-  .select('*').order('created_at',{ascending:false});
- if(error){showMessage(error.message);return}
+ const {data,error}=await sb.from('travel_announcements').select('*').order('created_at',{ascending:false});
+ if(error){notify(error.message);return}
  const rows=(data||[]).map(a=>`
-  <div class="announcement">
-   <div class="between"><h3>${escapeHTML(a.title)}</h3><span class="date">${dateText(a.created_at)}</span></div>
-   <p>${escapeHTML(a.message).replace(/\n/g,'<br>')}</p>
-   <button class="btn red small" onclick="deleteAnnouncement('${a.id}')">Hapus</button>
-  </div>`).join('');
-
- el('pageContent').innerHTML=`
- <div class="panel">
-  <h2>Buat Informasi & Pengumuman</h2>
-  <form id="announcementForm">
-   <label>Judul Pengumuman</label><input id="announcementTitle" required>
-   <label>Isi Pengumuman</label><textarea id="announcementMessage" required></textarea>
-   <br><br><button class="btn" type="submit">Terbitkan Pengumuman</button>
-  </form>
- </div>
- <div class="panel"><h2>Daftar Pengumuman</h2>${rows||'<p class="muted">Belum ada pengumuman.</p>'}</div>`;
-
- el('announcementForm').addEventListener('submit',async e=>{
+ <div class="announcement"><h3>${safe(a.title)}</h3><p>${safe(a.message)}</p><div class="date">${dateText(a.created_at)}</div>
+ <br><button class="btn red" onclick="deleteAnnouncement('${a.id}')">Hapus</button></div>`).join('');
+ $('pageContent').innerHTML=`
+ <div class="panel"><h2>Buat Pengumuman</h2><form id="announcementForm">
+ <label>Judul</label><input id="announcementTitle" required>
+ <label>Isi Pengumuman</label><textarea id="announcementMessage" required></textarea>
+ <br><br><button class="btn">Terbitkan</button></form></div>
+ <div class="panel"><h2>Pengumuman Terbit</h2>${rows||'<p class="muted">Belum ada pengumuman.</p>'}</div>`;
+ $('announcementForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  const title=el('announcementTitle').value.trim();
-  const message=el('announcementMessage').value.trim();
   const {error}=await sb.from('travel_announcements').insert({
-   title,message,created_by:currentUser.id
+   title:$('announcementTitle').value.trim(),
+   message:$('announcementMessage').value.trim(),
+   created_by:currentUser.id
   });
-  if(error){showMessage('Gagal menerbitkan: '+error.message);return}
-  showMessage('Pengumuman berhasil diterbitkan.');
-  adminAnnouncements();
+  if(error){notify('Gagal menerbitkan: '+error.message);return}
+  notify('Pengumuman berhasil diterbitkan.');adminAnnouncements();
  });
 }
 async function deleteAnnouncement(id){
  if(!confirm('Hapus pengumuman ini?'))return;
  const {error}=await sb.from('travel_announcements').delete().eq('id',id);
- if(error){showMessage(error.message);return}
- showMessage('Pengumuman dihapus.');
- adminAnnouncements();
+ if(error){notify(error.message);return}
+ notify('Pengumuman dihapus.');adminAnnouncements();
 }
 
-/* =====================================================
-   ANGGOTA - NAVIGASI
-   ===================================================== */
+/* MENU ANGGOTA */
 function memberPage(page,button){
- setActiveTab(button);
+ activeTab(button);
  if(!currentProfile)return;
  if(currentProfile.membership_status!=='active'&&page!=='profile'&&page!=='contract'){
-  el('pageContent').innerHTML=`
-   <div class="panel"><h2>Pendaftaran Menunggu Persetujuan</h2>
-   <p class="muted">Akun Anda belum aktif. Silakan menunggu Admin menyetujui pendaftaran Anda.</p>
-   <button class="btn whatsapp" onclick="openWhatsApp('Halo Admin TRAVEL CONNECT, saya ingin menanyakan status pendaftaran anggota.')">Hubungi Admin via WhatsApp</button></div>`;
+  $('pageContent').innerHTML='<div class="panel"><h2>Menunggu Persetujuan</h2><p class="muted">Akun Anda belum aktif. Silakan menunggu persetujuan Admin.</p><button class="btn wa" onclick="wa(\'Halo Admin TRAVEL CONNECT, saya ingin menanyakan status pendaftaran.\')">Hubungi Admin</button></div>';
   return;
  }
- if(page==='home')return memberHome();
- if(page==='profile')return memberProfile();
- if(page==='announcements')return memberAnnouncements();
- if(page==='contract')return memberContract();
+ if(page==='home')memberHome();
+ if(page==='profile')memberProfile();
+ if(page==='announcements')loadAnnouncements();
+ if(page==='contract')memberContract();
 }
 
-/* =====================================================
-   ANGGOTA - BERANDA
-   ===================================================== */
+/* BERANDA ANGGOTA */
 async function memberHome(){
- const {data,error}=await sb.from('travel_announcements')
-  .select('*').order('created_at',{ascending:false}).limit(5);
- if(error){showMessage(error.message);return}
- const announcements=(data||[]).map(a=>`
-  <div class="announcement">
-   <h3>${escapeHTML(a.title)}</h3>
-   <p>${escapeHTML(a.message).replace(/\n/g,'<br>')}</p>
-   <div class="date">${dateText(a.created_at)}</div>
-   <br><button class="btn whatsapp small" onclick="replyAnnouncement('${a.id}')">Balas via WhatsApp</button>
-  </div>`).join('');
-
- el('pageContent').innerHTML=`
+ $('pageContent').innerHTML=`
  <div class="grid">
-  <div class="panel"><div class="muted">Nama Usaha</div><h3>${escapeHTML(currentProfile.travel_name)}</h3></div>
+  <div class="panel"><div class="muted">Nama Usaha</div><h3>${safe(currentProfile.travel_name)}</h3></div>
   <div class="panel"><div class="muted">Status Keanggotaan</div><h3><span class="status active">ANGGOTA AKTIF</span></h3></div>
  </div>
- <div class="panel">
-  <h2>Selamat Datang di TRAVEL CONNECT</h2>
-  <p class="muted">Gunakan platform ini untuk menerima informasi dan menjalin komunikasi dengan Admin serta anggota lainnya.</p>
- </div>
- <div class="panel"><h2>Informasi Terbaru</h2>${announcements||'<p class="muted">Belum ada informasi terbaru.</p>'}
+ <div class="panel"><h2>Selamat Datang</h2><p class="muted">Anda telah terhubung dengan TRAVEL CONNECT.</p></div>
+ <div class="panel"><h2>Informasi Terbaru</h2><div id="homeAnnouncements">Memuat pengumuman...</div>
  <button class="btn secondary" onclick="memberPage('announcements')">Lihat Semua Pengumuman</button></div>`;
+ await loadAnnouncements();
 }
 
-/* =====================================================
-   ANGGOTA - PROFIL TRAVEL
-   ===================================================== */
+/* FUNGSI PENGUMUMAN + BALAS WHATSAPP */
+async function loadAnnouncements(){
+ const containers=[
+  $('announcementList'),
+  $('homeAnnouncements')
+ ].filter(Boolean);
+
+ if(!containers.length)return;
+
+ containers.forEach(container=>{
+  container.textContent='Memuat pengumuman...';
+ });
+
+ try{
+  const {data:authData,error:authError}=await sb.auth.getUser();
+  if(authError)throw authError;
+
+  const user=authData.user;
+  if(!user){
+   containers.forEach(container=>container.textContent='Silakan login terlebih dahulu.');
+   return;
+  }
+
+  const {data:member,error:memberError}=await sb
+   .from('travel_profiles')
+   .select('full_name,travel_name,email')
+   .eq('id',user.id)
+   .maybeSingle();
+
+  if(memberError)throw memberError;
+
+  const memberName=member?.full_name||member?.travel_name||user.email||'Anggota Travel';
+
+  const {data:announcements,error}=await sb
+   .from('travel_announcements')
+   .select('*')
+   .order('created_at',{ascending:false});
+
+  if(error)throw error;
+
+  announcementCache=announcements||[];
+
+  containers.forEach(container=>{
+   container.innerHTML='';
+
+   if(!announcements||announcements.length===0){
+    container.textContent='Belum ada pengumuman.';
+    return;
+   }
+
+   announcements.forEach(a=>{
+    const card=document.createElement('div');
+    card.className='announcement';
+
+    const title=document.createElement('h3');
+    title.textContent=a.title||'Pengumuman';
+
+    const message=document.createElement('p');
+    message.textContent=a.message||'';
+
+    const date=document.createElement('div');
+    date.className='date';
+    date.textContent=a.created_at?new Date(a.created_at).toLocaleString('id-ID'):'';
+
+    const waMessage=
+     'Halo Admin TRAVEL CONNECT,\n'+
+     'Saya '+memberName+' dari usaha '+(member?.travel_name||'-')+'.\n\n'+
+     'Saya ingin menanggapi pengumuman berikut:\n'+
+     'Judul: '+(a.title||'Pengumuman')+'\n'+
+     'Isi Pengumuman: '+(a.message||'')+'\n\n'+
+     'Tanggapan / balasan saya:\n';
+
+    const waButton=document.createElement('a');
+    waButton.textContent='BALAS VIA WHATSAPP';
+    waButton.href='https://wa.me/6281220157942?text='+encodeURIComponent(waMessage);
+    waButton.target='_blank';
+    waButton.rel='noopener noreferrer';
+    waButton.style.display='inline-block';
+    waButton.style.marginTop='12px';
+    waButton.style.padding='11px 17px';
+    waButton.style.background='#16a34a';
+    waButton.style.color='#ffffff';
+    waButton.style.borderRadius='9px';
+    waButton.style.textDecoration='none';
+    waButton.style.fontWeight='bold';
+
+    card.appendChild(title);
+    card.appendChild(message);
+    card.appendChild(date);
+    card.appendChild(waButton);
+    container.appendChild(card);
+   });
+  });
+ }catch(error){
+  console.error('Gagal memuat pengumuman:',error);
+  containers.forEach(container=>{
+   container.textContent='Gagal memuat pengumuman: '+error.message;
+  });
+ }
+}
+
+/* PROFIL ANGGOTA */
 function memberProfile(){
  const p=currentProfile;
- el('pageContent').innerHTML=`
- <div class="panel">
-  <h2>Profil Usaha Travel</h2>
-  <form id="profileForm">
-   <label>Nama Pemilik</label><input id="profileName" value="${escapeHTML(p.full_name)}" required>
-   <label>Nama Usaha Travel</label><input id="profileTravel" value="${escapeHTML(p.travel_name)}" required>
-   <label>Email</label><input value="${escapeHTML(p.email||currentUser.email)}" disabled>
-   <label>Nomor WhatsApp</label><input id="profilePhone" value="${escapeHTML(p.phone)}" required>
-   <label>Alamat</label><textarea id="profileAddress">${escapeHTML(p.address)}</textarea>
-   <label>Armada / Kendaraan</label><textarea id="profileFleet">${escapeHTML(p.fleet)}</textarea>
-   <br><br><button class="btn" type="submit">Simpan Perubahan</button>
-  </form>
- </div>
- <div class="panel">
-  <h2>Hubungi Admin</h2>
-  <p class="muted">Jika ada perubahan data keanggotaan atau pertanyaan, silakan hubungi Admin.</p>
-  <button class="btn whatsapp" onclick="openWhatsApp('Halo Admin TRAVEL CONNECT, saya ingin menghubungi Admin terkait profil usaha travel saya.')">WhatsApp Admin</button>
- </div>`;
-
- el('profileForm').addEventListener('submit',async e=>{
+ $('pageContent').innerHTML=`
+ <div class="panel"><h2>Profil Usaha Travel</h2><form id="profileForm">
+ <label>Nama Pemilik</label><input id="pName" value="${safe(p.full_name)}" required>
+ <label>Nama Usaha</label><input id="pTravel" value="${safe(p.travel_name)}" required>
+ <label>Email</label><input value="${safe(p.email||currentUser.email)}" disabled>
+ <label>WhatsApp</label><input id="pPhone" value="${safe(p.phone)}">
+ <label>Alamat</label><textarea id="pAddress">${safe(p.address)}</textarea>
+ <label>Armada</label><textarea id="pFleet">${safe(p.fleet)}</textarea>
+ <br><br><button class="btn">Simpan Perubahan</button></form></div>`;
+ $('profileForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  const updates={
-   full_name:el('profileName').value.trim(),
-   travel_name:el('profileTravel').value.trim(),
-   phone:el('profilePhone').value.trim(),
-   address:el('profileAddress').value.trim(),
-   fleet:el('profileFleet').value.trim()
-  };
-  const {data,error}=await sb.from('travel_profiles')
-   .update(updates).eq('id',currentUser.id).select().single();
-  if(error){showMessage('Gagal menyimpan profil: '+error.message);return}
-  currentProfile=data;
-  showMessage('Profil berhasil diperbarui.');
-  memberProfile();
+  const updates={full_name:$('pName').value.trim(),travel_name:$('pTravel').value.trim(),phone:$('pPhone').value.trim(),address:$('pAddress').value.trim(),fleet:$('pFleet').value.trim()};
+  const {data,error}=await sb.from('travel_profiles').update(updates).eq('id',currentUser.id).select().single();
+  if(error){notify('Gagal menyimpan: '+error.message);return}
+  currentProfile=data;notify('Profil berhasil disimpan.');memberProfile();
  });
 }
 
-/* =====================================================
-   ANGGOTA - INFORMASI & PENGUMUMAN
-   ===================================================== */
-async function memberAnnouncements(){
- el('pageContent').innerHTML='<div class="panel">Memuat informasi dan pengumuman...</div>';
- const {data,error}=await sb.from('travel_announcements')
-  .select('*').order('created_at',{ascending:false});
- if(error){
-  el('pageContent').innerHTML='<div class="panel">Gagal memuat pengumuman: '+escapeHTML(error.message)+'</div>';
-  return;
- }
- announcementCache=data||[];
- const items=announcementCache.map(a=>`
-  <div class="announcement">
-   <div class="between">
-    <h3>${escapeHTML(a.title)}</h3>
-    <span class="date">${dateText(a.created_at)}</span>
-   </div>
-   <p>${escapeHTML(a.message).replace(/\n/g,'<br>')}</p>
-   <button class="btn whatsapp" onclick="replyAnnouncement('${a.id}')">
-    Balas melalui WhatsApp
-   </button>
-  </div>`).join('');
-
- el('pageContent').innerHTML=`
- <div class="panel">
-  <h2>Informasi & Pengumuman</h2>
-  <p class="muted">Baca informasi dari Admin. Tekan tombol Balas untuk mengirim tanggapan melalui WhatsApp Admin.</p>
-  ${items||'<p class="muted">Belum ada pengumuman dari Admin.</p>'}
- </div>`;
-}
-function replyAnnouncement(id){
- const item=announcementCache.find(x=>String(x.id)===String(id));
- if(!item){showMessage('Pengumuman tidak ditemukan.');return}
- const message=
-  'Halo Admin TRAVEL CONNECT.\n\n'+
-  'Saya anggota TRAVEL CONNECT dari usaha '+(currentProfile.travel_name||'-')+'.\n\n'+
-  'Saya ingin membalas pengumuman:\n'+item.title+'\n\n'+
-  'Isi pengumuman: '+item.message+'\n\n'+
-  'Tanggapan / balasan saya:\n';
- openWhatsApp(message);
-}
-
-/* =====================================================
-   ANGGOTA - KONTRAK
-   ===================================================== */
+/* KONTRAK ANGGOTA */
 function memberContract(){
- el('pageContent').innerHTML=`
- <div class="panel">
-  <h2>Perjanjian Keanggotaan TRAVEL CONNECT</h2>
-  <p class="muted">Dokumen persetujuan keanggotaan.</p>
-  <ol style="line-height:2;color:#d8e5ee">
-   <li>Anggota memberikan data usaha yang benar dan dapat dipertanggungjawabkan.</li>
-   <li>Anggota menjaga nama baik TRAVEL CONNECT dan sesama anggota.</li>
-   <li>Anggota bertanggung jawab atas armada, pengemudi, keselamatan, dan pelayanan.</li>
-   <li>Anggota mematuhi ketentuan kerja sama dan peraturan yang berlaku.</li>
-   <li>Persetujuan dan status anggota ditentukan oleh Admin.</li>
-   <li>Admin dapat meninjau status keanggotaan jika ditemukan pelanggaran.</li>
-  </ol>
-  <hr>
-  <p><b>Nama Anggota:</b> ${escapeHTML(currentProfile.full_name)}</p>
-  <p><b>Usaha:</b> ${escapeHTML(currentProfile.travel_name)}</p>
-  <p><b>Status:</b> ${escapeHTML(currentProfile.membership_status)}</p>
-  <p><b>Persetujuan kontrak:</b> ${currentProfile.contract_accepted?'Sudah disetujui':'Belum tercatat'}</p>
-  <p><b>Tanggal persetujuan:</b> ${dateText(currentProfile.contract_accepted_at)}</p>
+ $('pageContent').innerHTML=`
+ <div class="panel"><h2>Perjanjian Keanggotaan</h2>
+ <p class="muted">Ketentuan keanggotaan TRAVEL CONNECT:</p>
+ <ol style="line-height:2">
+ <li>Anggota wajib memberikan data usaha yang benar.</li>
+ <li>Anggota wajib menjaga nama baik TRAVEL CONNECT.</li>
+ <li>Anggota bertanggung jawab atas armada dan pelayanan.</li>
+ <li>Anggota wajib mematuhi ketentuan kerja sama.</li>
+ <li>Persetujuan keanggotaan ditentukan Admin.</li>
+ </ol>
+ <hr>
+ <p>Nama: ${safe(currentProfile.full_name)}</p>
+ <p>Usaha: ${safe(currentProfile.travel_name)}</p>
+ <p>Status: ${safe(currentProfile.membership_status)}</p>
+ <p>Kontrak: ${currentProfile.contract_accepted?'Disetujui':'Belum tercatat'}</p>
+ <p>Tanggal persetujuan: ${dateText(currentProfile.contract_accepted_at)}</p>
  </div>`;
 }
 
-/* =====================================================
-   LOGOUT & PEMULIHAN SESI
-   ===================================================== */
+/* KELUAR & MULAI */
 async function logout(){
- await sb.auth.signOut();
- currentUser=null;
- currentProfile=null;
- showAuthScreen();
- showMessage('Anda telah keluar dari akun.');
+ await sb.auth.signOut();currentUser=null;currentProfile=null;showAuthScreen();notify('Berhasil keluar.');
 }
 async function init(){
  const {data,error}=await sb.auth.getSession();
- if(error){showMessage(error.message);return}
- if(data.session){
-  currentUser=data.session.user;
-  await loadApplication();
- }
+ if(error){notify(error.message);return}
+ if(data.session){currentUser=data.session.user;await loadApplication()}
  sb.auth.onAuthStateChange((event,session)=>{
-  if(event==='SIGNED_OUT'){
-   currentUser=null;currentProfile=null;showAuthScreen();
-  }
+  if(event==='SIGNED_OUT'){currentUser=null;currentProfile=null;showAuthScreen()}
  });
 }
 init();
